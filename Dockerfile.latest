@@ -1,0 +1,15 @@
+FROM alpine:edge
+
+MAINTAINER Chuanjian Wang <me@ckeyer.com>
+
+WORKDIR /usr/local/bin
+
+ADD ./registry .
+ADD ./config.yml /etc/registry/config.yml
+
+VOLUME ["/registry"]
+
+EXPOSE 5000
+
+ENTRYPOINT ["registry"]
+CMD ["serve", "/etc/registry/config.yml"]
