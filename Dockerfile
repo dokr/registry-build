@@ -8,11 +8,12 @@ RUN set -ex && \
 	git clone https://github.com/docker/distribution.git -b release/2.5 && \
 	cd distribution && \
 	CGO_ENABLED=0 go build -o /usr/bin/registry ./cmd/registry/main.go && \
-	cp $GOPATH/src/github.com/docker/distribution/cmd/registry/config-example.yml /etc/registry.yml
+	mkdir -p /etc/registry && \
+	cp $GOPATH/src/github.com/docker/distribution/cmd/registry/config-example.yml /etc/registry/config.yml
 
 VOLUME ["/var/lib/registry"]
 
 EXPOSE 5000
 
 ENTRYPOINT ["registry"]
-CMD ["serve", "/etc/registry.yml"]
+CMD ["serve", "/etc/registry/config.yml"]

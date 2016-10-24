@@ -1,4 +1,5 @@
 IMAGE_NAME := ckeyer/registry
+PWD := $(shell pwd)
 
 build:
 	docker build -t $(IMAGE_NAME)-building .
@@ -9,6 +10,14 @@ build:
 
 clean:
 	docker rmi $(IMAGE_NAME)
+
+run:
+	docker run --rm \
+	 --name registry \
+	 -v $(PWD)/config.yml:/etc/registry/config.yml \
+	 -v /data:/registry \
+	 -p 5000:5000 \
+	 $(IMAGE_NAME)
 
 try:
 	docker run --rm -it $(IMAGE_NAME) bash
